@@ -1,0 +1,25 @@
+CC     = gcc
+CFLAGS = -Wall
+
+all: test_map draw_map
+
+test_map: map.o test_map.o
+	$(CC) map.o test_map.o -o test_map
+
+map.o: map.c map.h
+	$(CC) $(CFLAGS) map.c -c
+
+test_map.o: test_map.c map.h
+	$(CC) $(CFLAGS) test_map.c -c
+
+rpng.o: rpng.c rpng.h
+	$(CC) $(CFLAGS) rpng.c -c
+
+draw_map.o: draw_map.c map.h rpng.h
+	$(CC) $(CFLAGS) draw_map.c -c
+
+draw_map: draw_map.o map.o rpng.o
+	$(CC) draw_map.o map.o rpng.o -o draw_map
+
+clean:
+	rm test_map draw_map map.o test_map.o draw_map.o rpng.o
