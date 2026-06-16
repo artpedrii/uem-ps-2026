@@ -12,12 +12,12 @@ const uint8_t smiley[] = {
 };
 
 void start() {
-    
+
 }
 
 void update () {
     *DRAW_COLORS = 2;
-    text("Hello from C!", 10, 10);
+    text("super teste", 10, 10);
 
     uint8_t gamepad = *GAMEPAD1;
     if (gamepad & BUTTON_1) {
