@@ -11,6 +11,10 @@ const uint8_t smiley[] = {
     0b11000011,
 };
 
+void start() {
+    
+}
+
 void update () {
     *DRAW_COLORS = 2;
     text("Hello from C!", 10, 10);
