@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 int main(){
-    float f = 1.0;
+    float f = 0.0625;
     printf("f=%.15f\n", f);
     return 0;
 }
