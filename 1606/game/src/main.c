@@ -17,7 +17,7 @@ void start() {
 
 void update () {
     *DRAW_COLORS = 2;
-    text("super teste", 10, 10);
+    text("SABOR 67 67 67 67 67 67 67 67", 10, 10);
 
     uint8_t gamepad = *GAMEPAD1;
     if (gamepad & BUTTON_1) {
