@@ -47,10 +47,50 @@ void update () {
   *DRAW_COLORS = 3; 
   rect(bola_x, bola_y, 2, 2);
   if (bola_x > 160 || bola_x < 0) {
-      bola_dx = -1 * bola_dx; 
+      bola_x = bola_y = 80; 
   }
   if (bola_y > 160 || bola_y < 0) {
       bola_dy = -1 * bola_dy; 
+  }
+  rect(0, raquete1_y, 4, 20);
+  rect(156, raquete2_y, 4, 20);
+
+  uint8_t gamepad = *GAMEPAD2;
+  if (gamepad & BUTTON_UP){
+    raquete1_y = raquete1_y - 3;
+    if (raquete1_y < 0){
+      raquete1_y = 0;
+    }
+  }
+  if (gamepad & BUTTON_DOWN){
+    raquete1_y = raquete1_y + 3;
+    if (raquete1_y > 140){
+      raquete1_y = 140;
+    }
+  }
+
+  uint8_t gamepad2 = *GAMEPAD1;
+  if (gamepad2 & BUTTON_UP){
+    raquete2_y = raquete2_y - 3;
+    if (raquete2_y < 0){
+      raquete2_y = 0;
+    }
+  }
+  if (gamepad2 & BUTTON_DOWN){
+    raquete2_y = raquete2_y + 3;
+    if (raquete2_y > 140){
+      raquete2_y = 140;
+    }
+  }
+
+  if (bola_x <= 4 && bola_y >= raquete1_y && bola_y <= raquete1_y + 20){
+    bola_dx = -1 * bola_dx;
+    bola_x = 5; 
+  }
+
+  if (bola_x >= 156 && bola_y >= raquete2_y && bola_y <= raquete2_y + 20){
+    bola_dx = -1 * bola_dx;
+    bola_x = 155;
   }
 }
 
