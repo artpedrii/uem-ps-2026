@@ -22,29 +22,35 @@ int pget(int x, int y) {
   return ((FRAMEBUFFER[idx] & mask) >> shift) + 1;
 }
 
-uint8_t x, y; // posição do jogador
+int bola_x; //eixo horizontal bola
+int bola_y; //eixo vertical bola
+
+int raquete1_y; //eixo vertical raquete 1
+int raquete2_y; //eixo vertical raquete 2
+
+int bola_dx; //velocidade horizontal da bola
+int bola_dy; //velocidade vertical da bola
 
 void start () {
-   x = y = 50; // posição inicial
+   bola_x = bola_y = 80; // posição inicial da bola
+
+   bola_dx = 2;//velocidade bola
+   bola_dy= 2;
+
+   raquete1_y = 80;
+   raquete2_y = 80; 
 }
 
 void update () {
-  uint8_t dx = 0, dy = 0; // deslocamento, permite mais de uma tecla pressionada
-  uint8_t gamepad = *GAMEPAD1;
-  if (gamepad & BUTTON_LEFT)  { dx = dx - 2; }
-  if (gamepad & BUTTON_RIGHT) { dx = dx + 2; }
-  if (gamepad & BUTTON_UP)    { dy = dy - 2; }
-  if (gamepad & BUTTON_DOWN)  { dy = dy + 2; }
-  x += dx;
-  y += dy;
-
-  *DRAW_COLORS = 2; rect(20, 20, 10, 60); // desenha parede
-
-  if (pget(x, y) == 2) { // se colidiu com parede então desfaz movimento
-    x -= dx;
-    y -= dy;
+  bola_x = bola_x + bola_dx;
+  bola_y = bola_y + bola_dy;
+  *DRAW_COLORS = 3; 
+  rect(bola_x, bola_y, 2, 2);
+  if (bola_x > 160 || bola_x < 0) {
+      bola_dx = -1 * bola_dx; 
   }
-
-  *DRAW_COLORS = 3; rect(x, y, 2, 2); // desenha jogador
+  if (bola_y > 160 || bola_y < 0) {
+      bola_dy = -1 * bola_dy; 
+  }
 }
 
