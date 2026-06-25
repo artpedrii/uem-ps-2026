@@ -22,12 +22,9 @@ int pget(int x, int y) {
   return ((FRAMEBUFFER[idx] & mask) >> shift) + 1;
 }
 
-// ---------------- SUPER JOGO ----------------
-
 int bola_x; //eixo horizontal bola
 int bola_y; //eixo vertical bola
 
-int raquete1_x; //eixo vertical raquete 1
 int raquete1_y; //eixo vertical raquete 1
 int raquete2_y; //eixo vertical raquete 2
 
@@ -40,7 +37,6 @@ void start () {
    bola_dx = 2;//velocidade bola
    bola_dy= 2;
 
-   raquete1_x = 0;
    raquete1_y = 80;
    raquete2_y = 80; 
 }
@@ -48,28 +44,51 @@ void start () {
 void update () {
   bola_x = bola_x + bola_dx;
   bola_y = bola_y + bola_dy;
-
   *DRAW_COLORS = 3; 
   rect(bola_x, bola_y, 2, 2);
-
   if (bola_x > 160 || bola_x < 0) {
-      bola_dx = -1 * bola_dx; 
+      bola_x = bola_y = 80; 
   }
   if (bola_y > 160 || bola_y < 0) {
-      bola_dy = -1 * bola_dy;
+      bola_dy = -1 * bola_dy; 
+  }
+  rect(0, raquete1_y, 4, 20);
+  rect(156, raquete2_y, 4, 20);
+
+  uint8_t gamepad = *GAMEPAD2;
+  if (gamepad & BUTTON_UP){
+    raquete1_y = raquete1_y - 3;
+    if (raquete1_y < 0){
+      raquete1_y = 0;
+    }
+  }
+  if (gamepad & BUTTON_DOWN){
+    raquete1_y = raquete1_y + 3;
+    if (raquete1_y > 140){
+      raquete1_y = 140;
+    }
   }
 
-  *DRAW_COLORS = 4;
-  rect(raquete1_x, raquete1_y, 6, 20);
-
-  if (*GAMEPAD2 & BUTTON_UP){
-    raquete1_y -= 3;
+  uint8_t gamepad2 = *GAMEPAD1;
+  if (gamepad2 & BUTTON_UP){
+    raquete2_y = raquete2_y - 3;
+    if (raquete2_y < 0){
+      raquete2_y = 0;
+    }
   }
-  if (*GAMEPAD2 & BUTTON_DOWN){
-    raquete1_y += 3;
+  if (gamepad2 & BUTTON_DOWN){
+    raquete2_y = raquete2_y + 3;
+    if (raquete2_y > 140){
+      raquete2_y = 140;
+    }
   }
 
-  if (bola_x <= 6 && bola_y < raquete1_y + 10 && bola_y > raquete1_y - 10){
+  if (bola_x <= 4 && bola_y >= raquete1_y && bola_y <= raquete1_y + 20){
+    bola_dx = -1 * bola_dx;
+  }
+
+  if (bola_x >= 156 && bola_y >= raquete2_y && bola_y <= raquete2_y + 20){
     bola_dx = -1 * bola_dx;
   }
 }
+
