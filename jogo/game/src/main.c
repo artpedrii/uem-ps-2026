@@ -32,6 +32,11 @@ int bola_dx; //velocidade horizontal da bola
 int bola_dy; //velocidade vertical da bola
 
 void start () {
+  PALETTE[0] = 00000000; // Cor 1 (Geralmente a cor de fundo da tela)
+  PALETTE[1] = 0xFFFFFF; // Cor 2
+  PALETTE[2] = 0xFFFFFF; // Cor 3
+  PALETTE[3] = 0xFFFFFF; // Cor 4
+
    bola_x = bola_y = 80; // posição inicial da bola
 
    bola_dx = 2;//velocidade bola
