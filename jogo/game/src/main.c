@@ -1,14 +1,17 @@
 #include "wasm4.h"
 #include <stdint.h>
 
-int bola_x; // Eixo horizontal bola
-int bola_y; // Eixo vertical bola
-
-int raquete_esq; // Eixo vertical raquete esquerda
-int raquete_dir; // Eixo vertical raquete direita
+int bola_x; // Eixo horizontal da bola
+int bola_y; // Eixo vertical da bola
 
 int bola_dx; // Velocidade horizontal da bola
 int bola_dy; // Velocidade vertical da bola
+
+int raquete_esq; // Eixo vertical da raquete esquerda
+int raquete_dir; // Eixo vertical da raquete direita
+
+int pontos_raquete_esq; // Pontos da raquete esquerda
+int pontos_raquete_dir; // Pontos da raquete esquerda
 
 void cores_jogo () {
   PALETTE[0] = 0x0a0a0a; // Cor 1 (cor do fundo)
@@ -18,7 +21,8 @@ void cores_jogo () {
 }
 
 void inicia_bola () {
-  bola_x = bola_y = 80;
+  bola_x = 80;
+  bola_y = 80;
   bola_dx = 2;
   bola_dy= 2;
 }
@@ -26,6 +30,8 @@ void inicia_bola () {
 void inicia_raquetes () {
   raquete_esq = 120;
   raquete_dir = 80;
+  pontos_raquete_esq = 0;
+  pontos_raquete_dir = 0;
 }
 
 void start () {
@@ -65,14 +71,24 @@ void move_raquete (int *raquete, uint8_t gamepad) {
   }
 }
 
-void colisoes () {
-  if (bola_x > 160 || bola_x < 0) {
-      bola_x = bola_y = 80;
+void colisao_pontos () {
+  if (bola_x > 160) {
+    pontos_raquete_esq += 1;
+    inicia_bola();
   }
+  if (bola_x < 0) {
+    pontos_raquete_dir += 1;
+    inicia_bola();
+  }
+}
+
+void colisao_teto_chao () {
   if (bola_y > 160 || bola_y < 0) {
       bola_dy = -1 * bola_dy; 
   }
+}
 
+void colisao_raquetes () {
   if (bola_x <= 4 && bola_y >= raquete_esq && bola_y <= raquete_esq + 20){
     bola_dx = -1 * bola_dx;
     bola_x = 5; 
@@ -82,6 +98,12 @@ void colisoes () {
     bola_dx = -1 * bola_dx;
     bola_x = 155;
   }
+}
+
+void colisoes () {
+  colisao_pontos();
+  colisao_teto_chao();
+  colisao_raquetes();
 }
 
 void update () {
