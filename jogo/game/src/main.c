@@ -1,7 +1,7 @@
 #include "wasm4.h"
 #include <stdint.h>
 
-int bola_x; //eixo horizontal bola
+int bola_x; // eixo horizontal bola
 int bola_y; //eixo vertical bola
 
 int raquete1_y; //eixo vertical raquete 1
@@ -18,14 +18,14 @@ void cores_jogo () {
 }
 
 void inicia_bola () {
-  bola_x = bola_y = 80; // Posição inicial da bola
-  bola_dx = 2; // Velociade da bola no eixo X
-  bola_dy= 2; // Velocidade da bola no eixo Y
+  bola_x = bola_y = 80;
+  bola_dx = 2;
+  bola_dy= 2;
 }
 
 void inicia_raquetes () {
-  raquete1_y = 120; // Posição da raquete da esquerda no eixo Y
-  raquete2_y = 80; // Posição da raquete da direita no eixo Y
+  raquete1_y = 120;
+  raquete2_y = 80;
 }
 
 void start () {
