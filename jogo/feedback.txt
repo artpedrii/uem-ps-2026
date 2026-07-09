@@ -1,0 +1,39 @@
+Boa tarde, Arthur e Guilherme.
+
+Quanto ao jogo, é um bom começo. O mecanismo principal está lá, joia.
+Só falta o refinamento.
+
+FALTA
+- Falta também usar as quatro cores disponíveis, para o jogo ficar
+visualmente um pouco mais interessante.
+
+MELHORIAS
+- Ok quanto às melhorias comentadas por vocês no arquivo texto.
+
+- Reforçando minha sugestão de antes, para randomizar, o ideal é usar
+um gerador de números aleatórios simples, tipo LCG
+(https://en.wikipedia.org/wiki/Linear_congruential_generator). O
+"seed" pode ser o número de frames passados entre o início do jogo
+(start) e a primeira vez que o jogo começa. Assim cada jogo será
+(provavelmente) diferente. Basta então usar mod (%) para gerar a faixa
+de números inteiros que interessa para vocês. No caso, basta mudar um
+pouco as velocidades vx e vy da bolinha.
+
+SUGESTÕES
+- Achei a velocidade inicial da bolinha muito rápida, talvez ela possa
+aumentar ao longo do tempo.
+
+- Uma sugestão fácil é sempre guardar a posição anterior da bolinha e
+dos paddles, e desenhar essa posição antiga em cinza, antes de
+desenhar a posição atual. Aí fica com um efeito de “borrão de
+movimento” ou de “TV antiga”, que tem a ver com videogames clássicos.
+
+- Outra sugestão é explicar como o jogo funciona depois da tela de
+título, não é preciso que seja um menu.
+
+- Como o jogo de vocês é para dois jogadores, depois rodem o mesmo
+programa em dois computadores e testem o mecanismo de multiplayer, ele
+funciona muito bem: https://wasm4.org/docs/guides/multiplayer
+
+Um abraço,
+  Marcelo
