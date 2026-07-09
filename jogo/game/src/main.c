@@ -1,27 +1,6 @@
 #include "wasm4.h"
 #include <stdint.h>
 
-// ---------------- FUNÇÕES ÚTEIS ----------------
-
-// desenha pixel (x,y) com cor c
-void pset(int x, int y, int c) {
-  if (x < 0 || x > 159 || y < 0 || y > 159) { return; }
-  if (c == 0) { return; /* transparent */ }
-  int idx = (y*160 + x) >> 2;
-  int shift = (x & 0b11) << 1;
-  int mask = 0b11 << shift;
-  FRAMEBUFFER[idx] = (uint8_t) ((c-1) << shift) | (FRAMEBUFFER[idx] & ~mask);
-}
-
-// retorna cor do pixel (x,y)
-int pget(int x, int y) {
-  if (x < 0 || x > 159 || y < 0 || y > 159) { return 0; }
-  int idx = (y*160 + x) >> 2;
-  int shift = (x & 0b11) << 1;
-  int mask = 0b11 << shift;
-  return ((FRAMEBUFFER[idx] & mask) >> shift) + 1;
-}
-
 int bola_x; //eixo horizontal bola
 int bola_y; //eixo vertical bola
 
@@ -31,19 +10,28 @@ int raquete2_y; //eixo vertical raquete 2
 int bola_dx; //velocidade horizontal da bola
 int bola_dy; //velocidade vertical da bola
 
-void start () {
+void cores_jogo () {
   PALETTE[0] = 00000000; // Cor 1 (Geralmente a cor de fundo da tela)
   PALETTE[1] = 0xFFFFFF; // Cor 2
   PALETTE[2] = 0xFFFFFF; // Cor 3
   PALETTE[3] = 0xFFFFFF; // Cor 4
+}
 
-   bola_x = bola_y = 80; // posição inicial da bola
+void inicia_bola () {
+  bola_x = bola_y = 80; // Posição inicial da bola
+  bola_dx = 2; // Velociade da bola no eixo X
+  bola_dy= 2; // Velocidade da bola no eixo Y
+}
 
-   bola_dx = 2;//velocidade bola
-   bola_dy= 2;
+void inicia_raquetes () {
+  raquete1_y = 120; // Posição da raquete da esquerda no eixo Y
+  raquete2_y = 80; // Posição da raquete da direita no eixo Y
+}
 
-   raquete1_y = 80;
-   raquete2_y = 80; 
+void start () {
+  cores_jogo();
+  inicia_bola();
+  inicia_raquetes();
 }
 
 void update () {
