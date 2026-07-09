@@ -4,8 +4,8 @@
 int bola_x; // Eixo horizontal bola
 int bola_y; // Eixo vertical bola
 
-int raquete1_y; // Eixo vertical raquete 1
-int raquete2_y; // Eixo vertical raquete 2
+int raquete_esq; // Eixo vertical raquete esquerda
+int raquete_dir; // Eixo vertical raquete direita
 
 int bola_dx; // Velocidade horizontal da bola
 int bola_dy; // Velocidade vertical da bola
@@ -24,8 +24,8 @@ void inicia_bola () {
 }
 
 void inicia_raquetes () {
-  raquete1_y = 120;
-  raquete2_y = 80;
+  raquete_esq = 120;
+  raquete_dir = 80;
 }
 
 void start () {
@@ -41,8 +41,8 @@ void desenha_bola () {
 
 void desenha_raquetes () {
   *DRAW_COLORS = 2;
-  rect(0, raquete1_y, 4, 20);
-  rect(156, raquete2_y, 4, 20);
+  rect(0, raquete_esq, 4, 20);
+  rect(156, raquete_dir, 4, 20);
 }
 
 void move_bola () {
@@ -50,26 +50,7 @@ void move_bola () {
   bola_y = bola_y + bola_dy;
 }
 
-void colisoes () {
-  if (bola_x > 160 || bola_x < 0) {
-      bola_x = bola_y = 80; 
-  }
-  if (bola_y > 160 || bola_y < 0) {
-      bola_dy = -1 * bola_dy; 
-  }
-
-  if (bola_x <= 4 && bola_y >= raquete1_y && bola_y <= raquete1_y + 20){
-    bola_dx = -1 * bola_dx;
-    bola_x = 5; 
-  }
-
-  if (bola_x >= 156 && bola_y >= raquete2_y && bola_y <= raquete2_y + 20){
-    bola_dx = -1 * bola_dx;
-    bola_x = 155;
-  }
-}
-
-void mover_raquete (int *raquete, uint16_t gamepad) {
+void move_raquete (int *raquete, uint8_t gamepad) {
   if (gamepad & BUTTON_UP){
     *raquete = *raquete - 3;
     if (*raquete < 0){
@@ -84,14 +65,32 @@ void mover_raquete (int *raquete, uint16_t gamepad) {
   }
 }
 
-void update () {
-  colisoes();
+void colisoes () {
+  if (bola_x > 160 || bola_x < 0) {
+      bola_x = bola_y = 80;
+  }
+  if (bola_y > 160 || bola_y < 0) {
+      bola_dy = -1 * bola_dy; 
+  }
 
-  desenha_bola();
-  move_bola();
+  if (bola_x <= 4 && bola_y >= raquete_esq && bola_y <= raquete_esq + 20){
+    bola_dx = -1 * bola_dx;
+    bola_x = 5; 
+  }
 
-  desenha_raquetes();
-  mover_raquete(&raquete1_y, *GAMEPAD2);
-  mover_raquete(&raquete2_y, *GAMEPAD1);
+  if (bola_x >= 156 && bola_y >= raquete_dir && bola_y <= raquete_dir + 20){
+    bola_dx = -1 * bola_dx;
+    bola_x = 155;
+  }
 }
 
+void update () {
+  move_raquete(&raquete_esq, *GAMEPAD2);
+  move_raquete(&raquete_dir, *GAMEPAD1);
+  move_bola();
+  
+  colisoes();
+
+  desenha_raquetes();
+  desenha_bola();
+}
