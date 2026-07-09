@@ -45,50 +45,17 @@ void desenha_raquetes () {
   rect(156, raquete2_y, 4, 20);
 }
 
-void mover_bola () {
+void move_bola () {
   bola_x = bola_x + bola_dx;
   bola_y = bola_y + bola_dy;
 }
 
-void update () {
-  mover_bola();
-  desenha_bola();
-
+void colisoes () {
   if (bola_x > 160 || bola_x < 0) {
       bola_x = bola_y = 80; 
   }
   if (bola_y > 160 || bola_y < 0) {
       bola_dy = -1 * bola_dy; 
-  }
-
-  desenha_raquetes();
-
-  uint8_t gamepad = *GAMEPAD2;
-  if (gamepad & BUTTON_UP){
-    raquete1_y = raquete1_y - 3;
-    if (raquete1_y < 0){
-      raquete1_y = 0;
-    }
-  }
-  if (gamepad & BUTTON_DOWN){
-    raquete1_y = raquete1_y + 3;
-    if (raquete1_y > 140){
-      raquete1_y = 140;
-    }
-  }
-
-  uint8_t gamepad2 = *GAMEPAD1;
-  if (gamepad2 & BUTTON_UP){
-    raquete2_y = raquete2_y - 3;
-    if (raquete2_y < 0){
-      raquete2_y = 0;
-    }
-  }
-  if (gamepad2 & BUTTON_DOWN){
-    raquete2_y = raquete2_y + 3;
-    if (raquete2_y > 140){
-      raquete2_y = 140;
-    }
   }
 
   if (bola_x <= 4 && bola_y >= raquete1_y && bola_y <= raquete1_y + 20){
@@ -100,5 +67,31 @@ void update () {
     bola_dx = -1 * bola_dx;
     bola_x = 155;
   }
+}
+
+void mover_raquete (int *raquete, uint16_t gamepad) {
+  if (gamepad & BUTTON_UP){
+    *raquete = *raquete - 3;
+    if (*raquete < 0){
+      *raquete = 0;
+    }
+  }
+  if (gamepad & BUTTON_DOWN){
+    *raquete = *raquete + 3;
+    if (*raquete > 140){
+      *raquete = 140;
+    }
+  }
+}
+
+void update () {
+  colisoes();
+
+  desenha_bola();
+  move_bola();
+
+  desenha_raquetes();
+  mover_raquete(&raquete1_y, *GAMEPAD2);
+  mover_raquete(&raquete2_y, *GAMEPAD1);
 }
 
