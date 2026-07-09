@@ -1,20 +1,20 @@
 #include "wasm4.h"
 #include <stdint.h>
 
-int bola_x; // eixo horizontal bola
-int bola_y; //eixo vertical bola
+int bola_x; // Eixo horizontal bola
+int bola_y; // Eixo vertical bola
 
-int raquete1_y; //eixo vertical raquete 1
-int raquete2_y; //eixo vertical raquete 2
+int raquete1_y; // Eixo vertical raquete 1
+int raquete2_y; // Eixo vertical raquete 2
 
-int bola_dx; //velocidade horizontal da bola
-int bola_dy; //velocidade vertical da bola
+int bola_dx; // Velocidade horizontal da bola
+int bola_dy; // Velocidade vertical da bola
 
 void cores_jogo () {
-  PALETTE[0] = 00000000; // Cor 1 (Geralmente a cor de fundo da tela)
-  PALETTE[1] = 0xFFFFFF; // Cor 2
-  PALETTE[2] = 0xFFFFFF; // Cor 3
-  PALETTE[3] = 0xFFFFFF; // Cor 4
+  PALETTE[0] = 0x0a0a0a; // Cor 1 (cor do fundo)
+  PALETTE[1] = 0x7550e8; // Cor 2
+  PALETTE[2] = 0x608fcf; // Cor 3
+  PALETTE[3] = 0x622e4c;; // Cor 4
 }
 
 void inicia_bola () {
@@ -34,19 +34,34 @@ void start () {
   inicia_raquetes();
 }
 
-void update () {
+void desenha_bola () {
+  *DRAW_COLORS = 3;
+  rect(bola_x, bola_y, 3, 3);
+}
+
+void desenha_raquetes () {
+  *DRAW_COLORS = 2;
+  rect(0, raquete1_y, 4, 20);
+  rect(156, raquete2_y, 4, 20);
+}
+
+void mover_bola () {
   bola_x = bola_x + bola_dx;
   bola_y = bola_y + bola_dy;
-  *DRAW_COLORS = 3; 
-  rect(bola_x, bola_y, 2, 2);
+}
+
+void update () {
+  mover_bola();
+  desenha_bola();
+
   if (bola_x > 160 || bola_x < 0) {
       bola_x = bola_y = 80; 
   }
   if (bola_y > 160 || bola_y < 0) {
       bola_dy = -1 * bola_dy; 
   }
-  rect(0, raquete1_y, 4, 20);
-  rect(156, raquete2_y, 4, 20);
+
+  desenha_raquetes();
 
   uint8_t gamepad = *GAMEPAD2;
   if (gamepad & BUTTON_UP){
