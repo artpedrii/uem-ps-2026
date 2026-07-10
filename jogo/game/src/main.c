@@ -104,7 +104,7 @@ void inicia_partida () {
   pontos_raquete_esq = 0;
   pontos_raquete_dir = 0;
   rebatidas = 0;
-  vencedor = 1;
+  vencedor = 0;
   inicia_raquetes();
   inicia_bola_com_direcao(1);
 }
@@ -112,7 +112,7 @@ void inicia_partida () {
 void start () {
   cores_jogo();
 
-  estado_jogo = ESTADO_VITORIA;
+  estado_jogo = ESTADO_TITULO;
   botao_anterior = 0;
   frames_inicio = 0;
   seed = 1;
@@ -125,26 +125,26 @@ void desenha_tela_titulo () {
   text("PONG WASM-4", 38, 48);
 
   *DRAW_COLORS = 3;
-  text("TUTU E SHIMAS", 30, 75);
+  text("TUTU AND SHIMAS", 22, 75);
 
   *DRAW_COLORS = 2;
-  text("APERTE Z OU X", 30, 104);
+  text("PRESS Z OR X", 32, 104);
 }
 
 void desenha_tela_instrucoes () {
   *DRAW_COLORS = 4;
-  text("COMO JOGAR", 40, 16);
+  text("HOW TO PLAY", 36, 16);
 
   *DRAW_COLORS = 2;
-  text("ESQ: P2 E/D", 36, 44);
-  text("DIR: P1 SETAS", 28, 60);
+  text("LEFT: E/D", 43, 44);
+  text("RIGHT: ARROWS", 30, 60);
 
   *DRAW_COLORS = 3;
-  text("REBATA A BOLINHA", 18, 88);
-  text("VAI A 5 PONTOS", 27, 104);
+  text("FIRST TO 5", 40, 88);
+  text("POINTS WINS", 36, 104);
 
   *DRAW_COLORS = 4;
-  text("APERTE Z OU X", 32, 136);
+  text("PRESS Z OR X", 32, 136);
 }
 
 void desenha_placar () {
@@ -292,17 +292,17 @@ void desenha_jogo () {
 
 void desenha_vitoria () {
   *DRAW_COLORS = 4;
-  text("FIM DE JOGO", 36, 40);
+  text("GAME OVER", 45, 40);
 
   *DRAW_COLORS = 3;
   if (vencedor == 1) {
-    text("ESQUERDA VENCEU", 22, 76);
+    text("LEFT WINS!", 43, 76);
   } else {
-    text("DIREITA VENCEU", 26, 76);
+    text("RIGHT WINS!", 38, 76);
   }
 
   *DRAW_COLORS = 2;
-  text("APERTE Z OU X", 30, 112);
+  text("PRESS Z OR X", 32, 112);
 }
 
 void atualiza_titulo (int apertou_botao) {
