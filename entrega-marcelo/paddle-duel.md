@@ -1,5 +1,5 @@
 ---
-author: Arthur (artpedrii), Guilherme Shimano Santana (GuiShimano)
+author: Arthur Pedrinho de Paula RA:.145100 (artpedrii), Guilherme Shimano Santana RA:.143614 (GuiShimano)
 date: 2026-07-10
 ---
 
